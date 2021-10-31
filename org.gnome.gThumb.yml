@@ -58,6 +58,29 @@ modules:
     cleanup:
       - /include
 
+  # adapted from https://github.com/flathub/org.free_astro.siril/blob/master/org.free_astro.siril.json#L257-L282
+  - name: libheif
+    config-opts:
+      - "--disable-gdk-pixbuf"
+    cleanup:
+      - "/bin"
+      - "/include"
+      - "/share/man"
+    modules:
+      - name: libde265
+        config-opts:
+          - "--disable-sherlock265"
+        cleanup:
+          - "/bin"
+        sources:
+          - type: archive
+            url: https://github.com/strukturag/libde265/releases/download/v1.0.8/libde265-1.0.8.tar.gz
+            sha256: 24c791dd334fa521762320ff54f0febfd3c09fc978880a8c5fbc40a88f21d905
+    sources:
+      - url: https://github.com/strukturag/libheif/releases/download/v1.12.0/libheif-1.12.0.tar.gz
+        sha256: e1ac2abb354fdc8ccdca71363ebad7503ad731c84022cf460837f0839e171718
+        type: archive
+
   - name: libraw
     config-opts:
       - --disable-examples
