@@ -118,6 +118,8 @@ modules:
 
   - name: totem-pl-parser
     buildsystem: meson
+    config-opts:
+      - -Dbuildtype=release
     sources:
       - type: archive
         url: https://download.gnome.org/sources/totem-pl-parser/3.26/totem-pl-parser-3.26.6.tar.xz
@@ -125,6 +127,8 @@ modules:
 
   - name: totem-video-thumbnailer
     buildsystem: meson
+    config-opts:
+      - -Dbuildtype=release
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
@@ -132,6 +136,8 @@ modules:
 
   - name: gThumb
     buildsystem: meson
+    config-opts:
+      - -Dbuildtype=release
     post-install:
       - install -Dm644 ../data/appdata/org.gnome.gThumb.appdata.xml.in $FLATPAK_DEST/share/appdata/$FLATPAK_ID.appdata.xml
     sources:
