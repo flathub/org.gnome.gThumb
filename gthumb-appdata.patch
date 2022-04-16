@@ -1,0 +1,68 @@
+--- gthumb-3.12.2/data/appdata/org.gnome.gThumb.appdata.xml.in	2022-04-03 14:38:59.000000000 -0400
++++ gthumb-3.12.2/data/appdata/org.gnome.gThumb.appdata.xml	2022-04-09 20:59:35.776975149 -0400
+@@ -1,12 +1,11 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<!-- Copyright 2014-2017 Paolo Bacchilega <paobac@src.gnome.org> -->
++<?xml version="1.0" encoding="utf-8"?>
+ <component type="desktop-application">
+   <id>org.gnome.gThumb.desktop</id>
+-  <metadata_license>CC0-1.0</metadata_license>
+-  <project_license>GPL-2.0+</project_license>
+-
+   <name>gThumb Image Viewer</name>
+   <summary>View and organize your images</summary>
++  <metadata_license>CC0-1.0</metadata_license>
++  <project_license>GPL-2.0+</project_license>
++  <project_group>GNOME</project_group>
+   <description>
+     <p>
+       gThumb is an image viewer, editor, browser and organizer.  It is designed
+@@ -38,30 +37,34 @@
+       for images and save the result as a catalog.
+     </p>
+   </description>
+-
+   <launchable type="desktop-id">org.gnome.gThumb.desktop</launchable>
+   <url type="homepage">https://wiki.gnome.org/Apps/Gthumb</url>
++  <translation type="gettext">gthumb</translation>
+   <screenshots>
+     <screenshot type="default">
+-      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-browser.png</image>
+       <caption>Browser mode</caption>
++      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-browser.png</image>
+     </screenshot>
+     <screenshot>
+-      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-viewer.png</image>
+       <caption>Viewer mode</caption>
++      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-viewer.png</image>
+     </screenshot>
+   </screenshots>
+-
+-  <update_contact>paobac_at_src.gnome.org</update_contact>
+-  <kudos>
+-    <kudo>AppMenu</kudo>
+-    <kudo>HiDpiIcon</kudo>
+-    <kudo>ModernToolkit</kudo>
+-    <kudo>UserDocs</kudo>
+-  </kudos>
+-  <project_group>GNOME</project_group>
+-  <translation type="gettext">gthumb</translation>
+-
++  <releases>
++    <release type="stable" version="3.12.2" date="2022-04-03T00:00:00Z">
++      <description>
++        <p>This release adds the following feature:</p>
++        <ul>
++          <li>Added support for larger thumbnail sizes: 512, 768 and 1024 pixels.</li>
++        </ul>
++        <p>This release fixes the following bug:</p>
++        <ul>
++          <li>Fixed possible crash when changing directory during thumbnails creation.</li>
++        </ul>
++        <p>This release updates translations.</p>
++      </description>
++    </release>
++  </releases>
+   <content_rating type="oars-1.1">
+     <content_attribute id="social-info">mild</content_attribute>
+     <content_attribute id="social-audio">moderate</content_attribute>
