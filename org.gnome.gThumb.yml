@@ -1,6 +1,6 @@
 app-id: org.gnome.gThumb
 runtime: org.gnome.Platform
-runtime-version: '42'
+runtime-version: '44'
 sdk: org.gnome.Sdk
 
 command: gthumb
@@ -12,7 +12,6 @@ finish-args:
   - --device=dri
   - --share=ipc
   - --talk-name=org.freedesktop.secrets
-  - --filesystem=xdg-cache
   - --filesystem=xdg-config/gtk-3.0
   - --filesystem=xdg-public-share
   - --filesystem=xdg-pictures
@@ -22,6 +21,9 @@ finish-args:
 
 cleanup:
   - /include
+  - /lib/pkgconfig
+  - /lib/cmake
+  - /lib/girepository-*
   - "*.a"
   - "*.la"
 
@@ -90,7 +92,7 @@ modules:
       - /bin
     modules:
       - name: highway
-        buildsystem: cmake
+        buildsystem: cmake-ninja
         config-opts:
           - -DBUILD_TESTING=OFF
         sources:
