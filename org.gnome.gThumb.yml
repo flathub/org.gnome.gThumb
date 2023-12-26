@@ -144,14 +144,11 @@ modules:
       - install -Dm644 ../data/appdata/org.gnome.gThumb.appdata.xml.in $FLATPAK_DEST/share/appdata/$FLATPAK_ID.appdata.xml
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.2.tar.xz
-        sha256: 97f8afe522535216541ebbf1e3b546d12a6beb38a8f0eb85f26e676934aad425
+        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.4.tar.xz
+        sha256: add693ac0aeb9a30d829ba03a06208289d3f6868dc3b02573549e88190c794e8
       - type: patch
         paths:
           - gthumb-build.patch
-          # gThumb expect appstreamcli
-          # https://gitlab.gnome.org/GNOME/gthumb/-/issues/224
-          - gthumb-appdata.patch
     cleanup:
       - /share/aclocal
 
