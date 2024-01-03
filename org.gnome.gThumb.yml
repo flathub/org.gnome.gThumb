@@ -1,6 +1,6 @@
 app-id: org.gnome.gThumb
 runtime: org.gnome.Platform
-runtime-version: '44'
+runtime-version: '45'
 sdk: org.gnome.Sdk
 
 command: gthumb
@@ -60,10 +60,11 @@ modules:
         url: https://www.freedesktop.org/software/colord/releases/colord-1.3.5.tar.xz
         sha256: 2daa8ffd2a532d7094927cd1a4af595b8310cea66f7707edcf6ab743460feed2
 
-  # adapted from https://github.com/flathub/org.free_astro.siril/blob/master/org.free_astro.siril.json#L257-L282
   - name: libheif
+    buildsystem: cmake-ninja
     config-opts:
-      - "--disable-gdk-pixbuf"
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DWITH_EXAMPLES=OFF
     cleanup:
       - "/bin"
       - "/share/man"
@@ -78,31 +79,9 @@ modules:
             url: https://github.com/strukturag/libde265/releases/download/v1.0.8/libde265-1.0.8.tar.gz
             sha256: 24c791dd334fa521762320ff54f0febfd3c09fc978880a8c5fbc40a88f21d905
     sources:
-      - url: https://github.com/strukturag/libheif/releases/download/v1.12.0/libheif-1.12.0.tar.gz
-        sha256: e1ac2abb354fdc8ccdca71363ebad7503ad731c84022cf460837f0839e171718
+      - url: https://github.com/strukturag/libheif/releases/download/v1.17.6/libheif-1.17.6.tar.gz
+        sha256: 8390baf4913eda0a183e132cec62b875fb2ef507ced5ddddc98dfd2f17780aee
         type: archive
-
-  - name: libjxl
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DBUILD_TESTING=OFF
-    cleanup:
-      - /bin
-    modules:
-      - name: highway
-        buildsystem: cmake-ninja
-        config-opts:
-          - -DBUILD_TESTING=OFF
-        sources:
-          - type: archive
-            url: https://github.com/google/highway/archive/refs/tags/0.15.0.tar.gz
-            sha256: 4bbd4439eae08cf038f1c5cc5d9ebc6a1a50f2c610c13a1483adccacfa24c150
-    # Using git because it downloads automatically some build dependencies as submodules.
-    sources:
-      - type: git
-        url: https://github.com/libjxl/libjxl.git
-        tag: v0.6.1
 
   - name: libraw
     config-opts:
@@ -135,12 +114,40 @@ modules:
         url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
         commit: 78ddf6c113d439d8ad9ff1453cf433592fabe9fd
 
+  # GNOME 45 runtime has webkit2gtk-4.1 but gThumb requires webkit2gtk-4.0
+  - name: webkit2gtk-4.0
+    sources:
+      - type: archive
+        url: https://webkitgtk.org/releases/webkitgtk-2.42.1.tar.xz
+        sha256: 6f41fac9989d3ee51c08c48de1d439cdeddecbc757e34b6180987d99b16d2499
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DPORT=GTK
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DENABLE_DOCUMENTATION=OFF
+      - -DENABLE_MINIBROWSER=OFF
+      - -DENABLE_WEBDRIVER=OFF
+      - -DENABLE_GAMEPAD=OFF
+      - -DUSE_SOUP2=ON
+      - -DENABLE_BUBBLEWRAP_SANDBOX=OFF
+    modules:
+      - shared-modules/libsoup/libsoup-2.4.json
+
+      - name: unifdef
+        no-autogen: true
+        make-install-args:
+          - prefix=${FLATPAK_DEST}
+        sources:
+          - type: archive
+            url: https://dotat.at/prog/unifdef/unifdef-2.12.tar.xz
+            sha256: 43ce0f02ecdcdc723b2475575563ddb192e988c886d368260bc0a63aee3ac400
+        cleanup:
+          - '*'
+
   - name: gThumb
     buildsystem: meson
     config-opts:
       - -Dbuildtype=release
-    post-install:
-      - install -Dm644 ../data/appdata/org.gnome.gThumb.appdata.xml.in $FLATPAK_DEST/share/appdata/$FLATPAK_ID.appdata.xml
     sources:
       - type: archive
         url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.4.tar.xz
