@@ -1,6 +1,6 @@
 app-id: org.gnome.gThumb
 runtime: org.gnome.Platform
-runtime-version: '45'
+runtime-version: '46'
 sdk: org.gnome.Sdk
 
 command: gthumb
@@ -23,6 +23,7 @@ cleanup:
   - /lib/pkgconfig
   - /lib/cmake
   - /lib/girepository-*
+  - /share/vala
   - "*.a"
   - "*.la"
 
@@ -114,12 +115,12 @@ modules:
         url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
         commit: 78ddf6c113d439d8ad9ff1453cf433592fabe9fd
 
-  # GNOME 45 runtime has webkit2gtk-4.1 but gThumb requires webkit2gtk-4.0
+  # GNOME 46 runtime has webkit2gtk-4.1 but gThumb requires webkit2gtk-4.0
   - name: webkit2gtk-4.0
     sources:
       - type: archive
-        url: https://webkitgtk.org/releases/webkitgtk-2.42.1.tar.xz
-        sha256: 6f41fac9989d3ee51c08c48de1d439cdeddecbc757e34b6180987d99b16d2499
+        url: https://webkitgtk.org/releases/webkitgtk-2.44.1.tar.xz
+        sha256: 425b1459b0f04d0600c78d1abb5e7edfa3c060a420f8b231e9a6a2d5d29c5561
     buildsystem: cmake-ninja
     config-opts:
       - -DPORT=GTK
@@ -129,7 +130,9 @@ modules:
       - -DENABLE_WEBDRIVER=OFF
       - -DENABLE_GAMEPAD=OFF
       - -DUSE_SOUP2=ON
+      - -DUSE_GTK4=OFF
       - -DENABLE_BUBBLEWRAP_SANDBOX=OFF
+      - -DUSE_LIBBACKTRACE=OFF
     modules:
       - shared-modules/libsoup/libsoup-2.4.json
 
@@ -150,8 +153,8 @@ modules:
       - -Dbuildtype=release
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.4.tar.xz
-        sha256: add693ac0aeb9a30d829ba03a06208289d3f6868dc3b02573549e88190c794e8
+        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.6.tar.xz
+        sha256: 608770c6c8e73073a1d404b65bd1b761e1ac5dc25e70130ff072488fa92f5c33
       - type: patch
         paths:
           - gthumb-build.patch
