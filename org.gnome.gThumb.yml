@@ -1,6 +1,6 @@
 app-id: org.gnome.gThumb
 runtime: org.gnome.Platform
-runtime-version: '46'
+runtime-version: '47'
 sdk: org.gnome.Sdk
 
 command: gthumb
@@ -42,29 +42,44 @@ modules:
         url: https://github.com/Exiv2/exiv2/releases/download/v0.27.5/exiv2-0.27.5-Source.tar.gz
         sha256: 35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2
 
-  # intltool needed by colord 1.3.5
-  - shared-modules/intltool/intltool-0.51.json
-  # colord 1.3.5 can be built without gusb and its dependencies, while 1.4.x require gusb.
   - name: colord
+    modules:
+      - shared-modules/libusb/libusb.json
+      - name: gusb
+        buildsystem: meson
+        config-opts:
+          - -Ddocs=false
+          - -Dvapi=false
+          - -Dtests=false
+        cleanup:
+          - /bin/gusbcmd
+        sources:
+          - type: archive
+            url: https://github.com/hughsie/libgusb/releases/download/0.4.9/libgusb-0.4.9.tar.xz
+            sha256: 9df5ef301d6a4b361002aa52cce1165a87a89744055879bdbab31e7e86f1e846
+    buildsystem: meson
     config-opts:
-      - --disable-gusb
-      - --disable-udev
-      - --disable-polkit
-      - --disable-systemd-login
-      - --disable-argyllcms-sensor
-      - --disable-bash-completion
-      - --with-tmpfilesdir=/app/lib
-      - --with-systemdsystemunitdir=/app/lib
-      - --with-udevrulesdir=/app/lib
+      - -Dargyllcms_sensor=false
+      - -Dbash_completion=false
+      - -Ddocs=false
+      - -Dman=false
+      - -Dtests=false
+      - -Dinstalled_tests=false
+      - -Dudev_rules=false
+      - -Dsystemd=false
     sources:
       - type: archive
-        url: https://www.freedesktop.org/software/colord/releases/colord-1.3.5.tar.xz
-        sha256: 2daa8ffd2a532d7094927cd1a4af595b8310cea66f7707edcf6ab743460feed2
+        url: https://www.freedesktop.org/software/colord/releases/colord-1.4.7.tar.xz
+        sha256: de02d9910634ae159547585cec414e450f711c27235453b4f9b38a9f2361a653
 
   - name: libheif
     buildsystem: cmake-ninja
+    builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_COMPILE_WARNING_AS_ERROR=OFF
+      - -DCMAKE_DISABLE_FIND_PACKAGE_Doxygen=ON
+      - -DBUILD_TESTING=OFF
       - -DWITH_EXAMPLES=OFF
     cleanup:
       - "/bin"
@@ -77,11 +92,11 @@ modules:
           - "/bin"
         sources:
           - type: archive
-            url: https://github.com/strukturag/libde265/releases/download/v1.0.8/libde265-1.0.8.tar.gz
-            sha256: 24c791dd334fa521762320ff54f0febfd3c09fc978880a8c5fbc40a88f21d905
+            url: https://github.com/strukturag/libde265/releases/download/v1.0.15/libde265-1.0.15.tar.gz
+            sha256: 00251986c29d34d3af7117ed05874950c875dd9292d016be29d3b3762666511d
     sources:
-      - url: https://github.com/strukturag/libheif/releases/download/v1.17.6/libheif-1.17.6.tar.gz
-        sha256: 8390baf4913eda0a183e132cec62b875fb2ef507ced5ddddc98dfd2f17780aee
+      - url: https://github.com/strukturag/libheif/releases/download/v1.19.5/libheif-1.19.5.tar.gz
+        sha256: d3cf0a76076115a070f9bc87cf5259b333a1f05806500045338798486d0afbaf
         type: archive
 
   - name: libraw
@@ -89,8 +104,8 @@ modules:
       - --disable-examples
     sources:
       - type: archive
-        url: https://www.libraw.org/data/LibRaw-0.20.2.tar.gz
-        sha256: dc1b486c2003435733043e4e05273477326e51c3ea554c6864a4eafaff1004a6
+        url: https://www.libraw.org/data/LibRaw-0.21.3.tar.gz
+        sha256: dba34b7fc1143503942fa32ad9db43e94f714e62a4a856e91617f8f3e1e0aa5c
       - type: shell
         commands:
           - autoreconf -fi
@@ -119,8 +134,8 @@ modules:
   - name: webkit2gtk-4.0
     sources:
       - type: archive
-        url: https://webkitgtk.org/releases/webkitgtk-2.44.1.tar.xz
-        sha256: 425b1459b0f04d0600c78d1abb5e7edfa3c060a420f8b231e9a6a2d5d29c5561
+        url: https://webkitgtk.org/releases/webkitgtk-2.46.3.tar.xz
+        sha256: 85e09fa6ff9fea49678ba9975dbc64ea3242833f8f8a7d6a8937b2f292fcb28d
     buildsystem: cmake-ninja
     config-opts:
       - -DPORT=GTK
@@ -153,11 +168,11 @@ modules:
       - -Dbuildtype=release
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.6.tar.xz
-        sha256: 608770c6c8e73073a1d404b65bd1b761e1ac5dc25e70130ff072488fa92f5c33
+        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.7.tar.xz
+        sha256: ee12d24cf231010241f758d6c95b9d53a7381278fa76b6a518b3d09b371efaec
       - type: patch
         paths:
-          - gthumb-build.patch
+          - gthumb-svg-dir.patch
     cleanup:
       - /share/aclocal
 
