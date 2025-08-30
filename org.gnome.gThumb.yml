@@ -3,6 +3,9 @@ runtime: org.gnome.Platform
 runtime-version: '47'
 sdk: org.gnome.Sdk
 
+# Upstream flatpak manifest
+# https://gitlab.gnome.org/GNOME/gthumb/-/blob/master/data/flatpak/org.gnome.gThumb.yml
+
 command: gthumb
 
 finish-args:
@@ -17,6 +20,7 @@ finish-args:
   - --filesystem=xdg-run/gvfs
   - --filesystem=xdg-run/gvfsd
   - --talk-name=org.gtk.vfs.*
+  - --talk-name=org.gtk.MountOperationHandler
 
 cleanup:
   - /include
@@ -34,13 +38,20 @@ modules:
       - /lib/exiv2
       - /share/man
     config-opts:
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_BUILD_TYPE=Release
       - -DEXIV2_BUILD_EXIV2_COMMAND=OFF
       - -DEXIV2_BUILD_SAMPLES=OFF
+      - -DEXIV2_BUILD_UNIT_TESTS=OFF
+      - -DEXIV2_ENABLE_INIH=OFF
     sources:
       - type: archive
-        url: https://github.com/Exiv2/exiv2/releases/download/v0.27.5/exiv2-0.27.5-Source.tar.gz
-        sha256: 35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2
+        url: https://github.com/Exiv2/exiv2/archive/refs/tags/v0.28.6.tar.gz
+        sha256: 9d481117b97afa5324bf3ea0ad79f5c2939ae94ba0d0f5f8eb23aee16d9ec58d
+        x-checker-data:
+          type: anitya
+          project-id: 769
+          stable-only: true
+          url-template: https://github.com/Exiv2/exiv2/archive/refs/tags/v$version.tar.gz
 
   - name: colord
     modules:
@@ -69,8 +80,13 @@ modules:
       - -Dsystemd=false
     sources:
       - type: archive
-        url: https://www.freedesktop.org/software/colord/releases/colord-1.4.7.tar.xz
-        sha256: de02d9910634ae159547585cec414e450f711c27235453b4f9b38a9f2361a653
+        url: https://www.freedesktop.org/software/colord/releases/colord-1.4.8.tar.xz
+        sha256: 21500bd68975312a7f0f3ce6019d9f75f42aacaa75ca7115ec720b5445406896
+        x-checker-data:
+          type: anitya
+          project-id: 10190
+          stable-only: true
+          url-template: https://www.freedesktop.org/software/colord/releases/colord-$version.tar.xz
 
   - name: libheif
     buildsystem: cmake-ninja
@@ -95,20 +111,28 @@ modules:
             url: https://github.com/strukturag/libde265/releases/download/v1.0.15/libde265-1.0.15.tar.gz
             sha256: 00251986c29d34d3af7117ed05874950c875dd9292d016be29d3b3762666511d
     sources:
-      - url: https://github.com/strukturag/libheif/releases/download/v1.19.5/libheif-1.19.5.tar.gz
-        sha256: d3cf0a76076115a070f9bc87cf5259b333a1f05806500045338798486d0afbaf
-        type: archive
+      - type: archive
+        url: https://github.com/strukturag/libheif/releases/download/v1.20.2/libheif-1.20.2.tar.gz
+        sha256: 68ac9084243004e0ef3633f184eeae85d615fe7e4444373a0a21cebccae9d12a
+        x-checker-data:
+          type: anitya
+          project-id: 64439
+          stable-only: true
+          url-template: https://github.com/strukturag/libheif/releases/download/v$version/libheif-$version.tar.gz
 
   - name: libraw
+    buildsystem: autotools
     config-opts:
       - --disable-examples
     sources:
       - type: archive
-        url: https://www.libraw.org/data/LibRaw-0.21.3.tar.gz
-        sha256: dba34b7fc1143503942fa32ad9db43e94f714e62a4a856e91617f8f3e1e0aa5c
-      - type: shell
-        commands:
-          - autoreconf -fi
+        url: https://www.libraw.org/data/LibRaw-0.21.4.tar.gz
+        sha256: 6be43f19397e43214ff56aab056bf3ff4925ca14012ce5a1538a172406a09e63
+        x-checker-data:
+          type: anitya
+          project-id: 1709
+          stable-only: true
+          url-template: https://www.libraw.org/data/LibRaw-$version.tar.gz
     cleanup:
       - /share/doc
 
@@ -128,14 +152,22 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
-        commit: 78ddf6c113d439d8ad9ff1453cf433592fabe9fd
+        commit: 6cb399918571a97591ff5a4a5a41d8e46b11027a
 
-  # GNOME 46 runtime has webkit2gtk-4.1 but gThumb requires webkit2gtk-4.0
+  # GNOME runtime has webkit2gtk-4.1 but gThumb requires webkit2gtk-4.0
   - name: webkit2gtk-4.0
     sources:
       - type: archive
-        url: https://webkitgtk.org/releases/webkitgtk-2.46.3.tar.xz
-        sha256: 85e09fa6ff9fea49678ba9975dbc64ea3242833f8f8a7d6a8937b2f292fcb28d
+        url: https://webkitgtk.org/releases/webkitgtk-2.46.6.tar.xz
+        sha256: f2b31de693220ba9bab76ce6ddfe5b0bfab2515cb2b0a70f3c54d4050766c32b
+        x-checker-data:
+          type: anitya
+          project-id: 324014
+          stable-only: true
+          # 4.0 API deprecated since version 2.47.0
+          versions:
+            <: 2.47.0
+          url-template: https://webkitgtk.org/releases/webkitgtk-$version.tar.xz
     buildsystem: cmake-ninja
     config-opts:
       - -DPORT=GTK
@@ -150,7 +182,6 @@ modules:
       - -DUSE_LIBBACKTRACE=OFF
     modules:
       - shared-modules/libsoup/libsoup-2.4.json
-
       - name: unifdef
         no-autogen: true
         make-install-args:
@@ -166,10 +197,16 @@ modules:
     buildsystem: meson
     config-opts:
       - -Dbuildtype=release
+      - -Dflatpak-build=true
+      - -Dwarn-deprecated=false
     sources:
       - type: archive
         url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.7.tar.xz
         sha256: ee12d24cf231010241f758d6c95b9d53a7381278fa76b6a518b3d09b371efaec
+        x-checker-data:
+          type: gnome
+          name: gthumb
+          stable-only: true
       - type: patch
         paths:
           - gthumb-svg-dir.patch
