@@ -154,44 +154,8 @@ modules:
         url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
         commit: 6cb399918571a97591ff5a4a5a41d8e46b11027a
 
-  # GNOME runtime has webkit2gtk-4.1 but gThumb requires webkit2gtk-4.0
-  - name: webkit2gtk-4.0
-    sources:
-      - type: archive
-        url: https://webkitgtk.org/releases/webkitgtk-2.46.6.tar.xz
-        sha256: f2b31de693220ba9bab76ce6ddfe5b0bfab2515cb2b0a70f3c54d4050766c32b
-        x-checker-data:
-          type: anitya
-          project-id: 324014
-          stable-only: true
-          # 4.0 API deprecated since version 2.47.0
-          versions:
-            <: 2.47.0
-          url-template: https://webkitgtk.org/releases/webkitgtk-$version.tar.xz
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DPORT=GTK
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
-      - -DENABLE_DOCUMENTATION=OFF
-      - -DENABLE_MINIBROWSER=OFF
-      - -DENABLE_WEBDRIVER=OFF
-      - -DENABLE_GAMEPAD=OFF
-      - -DUSE_SOUP2=ON
-      - -DUSE_GTK4=OFF
-      - -DENABLE_BUBBLEWRAP_SANDBOX=OFF
-      - -DUSE_LIBBACKTRACE=OFF
-    modules:
-      - shared-modules/libsoup/libsoup-2.4.json
-      - name: unifdef
-        no-autogen: true
-        make-install-args:
-          - prefix=${FLATPAK_DEST}
-        sources:
-          - type: archive
-            url: https://dotat.at/prog/unifdef/unifdef-2.12.tar.xz
-            sha256: 43ce0f02ecdcdc723b2475575563ddb192e988c886d368260bc0a63aee3ac400
-        cleanup:
-          - '*'
+  # This module requires a lot of resources and time to be built, hence it's moved outside the main manifest so it can be easily commented and disabled for local tests.
+  - webkit2gtk.yaml
 
   - name: gThumb
     buildsystem: meson
