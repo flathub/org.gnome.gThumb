@@ -171,9 +171,6 @@ modules:
           type: gnome
           name: gthumb
           stable-only: true
-      # https://gitlab.gnome.org/GNOME/gthumb/-/commit/816883e1d74c4d3f7b379205876a54d45accace9
-      - type: patch
-        path: gthumb-3.12.8.patch
     cleanup:
       - /share/aclocal
 
