@@ -154,9 +154,6 @@ modules:
         url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
         commit: 6cb399918571a97591ff5a4a5a41d8e46b11027a
 
-  # This module requires a lot of resources and time to be built, hence it's moved outside the main manifest so it can be easily commented and disabled for local tests.
-  - webkit2gtk.yaml
-
   - name: gThumb
     buildsystem: meson
     config-opts:
