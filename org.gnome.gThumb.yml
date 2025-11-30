@@ -1,6 +1,6 @@
 app-id: org.gnome.gThumb
 runtime: org.gnome.Platform
-runtime-version: '48'
+runtime-version: '49'
 sdk: org.gnome.Sdk
 
 # Upstream flatpak manifest
@@ -55,7 +55,6 @@ modules:
 
   - name: colord
     modules:
-      - shared-modules/libusb/libusb.json
       - name: gusb
         buildsystem: meson
         config-opts:
@@ -87,38 +86,6 @@ modules:
           project-id: 10190
           stable-only: true
           url-template: https://www.freedesktop.org/software/colord/releases/colord-$version.tar.xz
-
-  - name: libheif
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_COMPILE_WARNING_AS_ERROR=OFF
-      - -DCMAKE_DISABLE_FIND_PACKAGE_Doxygen=ON
-      - -DBUILD_TESTING=OFF
-      - -DWITH_EXAMPLES=OFF
-    cleanup:
-      - /bin
-      - /share/man
-    modules:
-      - name: libde265
-        config-opts:
-          - --disable-sherlock265
-        cleanup:
-          - /bin
-        sources:
-          - type: archive
-            url: https://github.com/strukturag/libde265/releases/download/v1.0.15/libde265-1.0.15.tar.gz
-            sha256: 00251986c29d34d3af7117ed05874950c875dd9292d016be29d3b3762666511d
-    sources:
-      - type: archive
-        url: https://github.com/strukturag/libheif/releases/download/v1.20.2/libheif-1.20.2.tar.gz
-        sha256: 68ac9084243004e0ef3633f184eeae85d615fe7e4444373a0a21cebccae9d12a
-        x-checker-data:
-          type: anitya
-          project-id: 64439
-          stable-only: true
-          url-template: https://github.com/strukturag/libheif/releases/download/v$version/libheif-$version.tar.gz
 
   - name: libraw
     buildsystem: autotools
