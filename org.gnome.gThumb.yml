@@ -165,8 +165,8 @@ modules:
       - -Dwarn-deprecated=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.8.1.tar.xz
-        sha256: 27362fc11ca5c581f31682230c95020e5a1fcddf4cffebe75557828c6174db5b
+        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.8.2.tar.xz
+        sha256: abc57b1103165dd691535796f7dbdba7686217c7d069e974ed0f3d800fe88796
         x-checker-data:
           type: gnome
           name: gthumb
