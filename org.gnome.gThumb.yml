@@ -93,8 +93,8 @@ modules:
       - --disable-examples
     sources:
       - type: archive
-        url: https://www.libraw.org/data/LibRaw-0.21.4.tar.gz
-        sha256: 6be43f19397e43214ff56aab056bf3ff4925ca14012ce5a1538a172406a09e63
+        url: https://www.libraw.org/data/LibRaw-0.22.0.tar.gz
+        sha256: 1071e6e8011593c366ffdadc3d3513f57c90202d526e133174945ec1dd53f2a1
         x-checker-data:
           type: anitya
           project-id: 1709
@@ -129,8 +129,8 @@ modules:
       - -Dwarn-deprecated=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.8.2.tar.xz
-        sha256: abc57b1103165dd691535796f7dbdba7686217c7d069e974ed0f3d800fe88796
+        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.9.tar.xz
+        sha256: d77f88b569de4925780730e7867b2907718da66068c242dde9bbda107e183ffa
         x-checker-data:
           type: gnome
           name: gthumb
