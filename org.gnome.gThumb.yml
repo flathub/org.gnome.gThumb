@@ -23,10 +23,27 @@ finish-args:
   - --talk-name=org.gtk.MountOperationHandler
 
 cleanup:
+  - '/bin/cd-*'
+  - '/bin/colormgr'
+  - '/bin/exiv2'
+  - '/bin/gusbcmd'
+  - '/bin/4channels'
+  - '/bin/dcraw_emu'
+  - '/bin/dcraw_half'
+  - '/bin/half_mt'
+  - '/bin/mem_image'
+  - '/bin/multirender_test'
+  - '/bin/postprocessing_benchmark'
+  - '/bin/raw-identify'
+  - '/bin/rawtextdump'
+  - '/bin/simple_dcraw'
+  - '/bin/unprocessed_raw'
   - /include
   - /lib/pkgconfig
   - /lib/cmake
   - /lib/girepository-*
+  - /share/aclocal
+  - /share/doc
   - /share/vala
   - '*.a'
   - '*.la'
@@ -100,8 +117,6 @@ modules:
           project-id: 1709
           stable-only: true
           url-template: https://www.libraw.org/data/LibRaw-$version.tar.gz
-    cleanup:
-      - /share/doc
 
   - name: totem-pl-parser
     buildsystem: meson
@@ -135,6 +150,3 @@ modules:
           type: gnome
           name: gthumb
           stable-only: true
-    cleanup:
-      - /share/aclocal
-
