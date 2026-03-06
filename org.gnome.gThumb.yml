@@ -23,10 +23,15 @@ finish-args:
   - --talk-name=org.gtk.MountOperationHandler
 
 cleanup:
+  - /bin/cd-*
   - /include
   - /lib/pkgconfig
   - /lib/cmake
   - /lib/girepository-*
+  - /share/aclocal
+  - /share/gir-1.0
+  - /share/doc
+  - /share/man
   - /share/vala
   - '*.a'
   - '*.la'
@@ -36,7 +41,6 @@ modules:
     buildsystem: cmake-ninja
     cleanup:
       - /lib/exiv2
-      - /share/man
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DEXIV2_BUILD_EXIV2_COMMAND=OFF
@@ -100,8 +104,6 @@ modules:
           project-id: 1709
           stable-only: true
           url-template: https://www.libraw.org/data/LibRaw-$version.tar.gz
-    cleanup:
-      - /share/doc
 
   - name: totem-pl-parser
     buildsystem: meson
@@ -129,12 +131,9 @@ modules:
       - -Dwarn-deprecated=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.9.tar.xz
-        sha256: d77f88b569de4925780730e7867b2907718da66068c242dde9bbda107e183ffa
+        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.10.tar.xz
+        sha256: 3222344653cd6fb5d7981b73951ae3d90c414f74220a8b1c8665b25574284c75
         x-checker-data:
           type: gnome
           name: gthumb
           stable-only: true
-    cleanup:
-      - /share/aclocal
-
