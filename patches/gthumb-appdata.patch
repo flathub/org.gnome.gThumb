@@ -1,0 +1,25 @@
+diff --git a/data/appdata/org.gnome.gThumb.metainfo.xml.in b/data/appdata/org.gnome.gThumb.metainfo.xml.in
+index 60fcc0e..963cbbc 100644
+--- a/data/appdata/org.gnome.gThumb.metainfo.xml.in
++++ b/data/appdata/org.gnome.gThumb.metainfo.xml.in
+@@ -43,18 +43,17 @@
+   <launchable type="desktop-id">org.gnome.gThumb.desktop</launchable>
+   <url type="homepage">https://gitlab.gnome.org/GNOME/gthumb/</url>
+   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gthumb/-/issues</url>
+-  <url type="help">https://help.gnome.org/users/gthumb/stable/</url>
+   <url type="translate">https://l10n.gnome.org/module/gthumb/</url>
+   <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gthumb/</url>
+   <translation type="gettext">gthumb</translation>
+   <screenshots>
+     <screenshot type="default">
+       <caption>Browser mode</caption>
+-      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-browser.png</image>
++      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/3.12.10/data/appdata/ss-browser.png</image>
+     </screenshot>
+     <screenshot>
+       <caption>Viewer mode</caption>
+-      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-viewer.png</image>
++      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/3.12.10/data/appdata/ss-viewer.png</image>
+     </screenshot>
+   </screenshots>
+   <releases>
