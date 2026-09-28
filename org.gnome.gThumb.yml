@@ -50,8 +50,8 @@ modules:
       - -DEXIV2_ENABLE_INIH=OFF
     sources:
       - type: archive
-        url: https://github.com/Exiv2/exiv2/archive/refs/tags/v0.28.8.tar.gz
-        sha256: ea51b0609f58a9afa063b60daa1539948b62247721e154f4fff0ad3aec9f9756
+        url: https://github.com/Exiv2/exiv2/archive/refs/tags/v0.28.9.tar.gz
+        sha256: 700b76b97695b2fab4ef8c79619c68ae57d09e0c130724791cafbd39e0eb4aef
         x-checker-data:
           type: anitya
           project-id: 769
@@ -98,8 +98,8 @@ modules:
       - --disable-examples
     sources:
       - type: archive
-        url: https://www.libraw.org/data/LibRaw-0.22.1.tar.gz
-        sha256: a789dc4e2409e2901d93793a4e0b80c7b49d0d97cf6ad71c850eb7616acfd786
+        url: https://www.libraw.org/data/LibRaw-0.22.2.tar.gz
+        sha256: de86b035655accff8d4010f1a221fdf50d353cb7b1422ba26f14a0db92612cfa
         x-checker-data:
           type: anitya
           project-id: 1709
@@ -132,8 +132,8 @@ modules:
       - -Dwarn-deprecated=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.10.tar.xz
-        sha256: 3222344653cd6fb5d7981b73951ae3d90c414f74220a8b1c8665b25574284c75
+        url: https://download.gnome.org/sources/gthumb/4.0/gthumb-4.0.tar.xz
+        sha256: a24aaa72b5637f49097dedc9c141a33615da770d029315f3285ebf2156cf7b61
         x-checker-data:
           type: gnome
           name: gthumb
