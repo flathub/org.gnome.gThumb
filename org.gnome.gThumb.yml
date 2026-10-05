@@ -4,7 +4,7 @@ runtime-version: '50'
 sdk: org.gnome.Sdk
 
 # Upstream flatpak manifest
-# https://gitlab.gnome.org/GNOME/gthumb/-/blob/master/data/flatpak/org.gnome.gThumb.yml
+# https://gitlab.gnome.org/GNOME/gthumb/-/blob/master/data/flatpak/org.gnome.gthumb.yml
 
 command: gthumb
 
@@ -106,30 +106,47 @@ modules:
           stable-only: true
           url-template: https://www.libraw.org/data/LibRaw-$version.tar.gz
 
-  - name: totem-pl-parser
-    buildsystem: meson
-    config-opts:
-      - -Dbuildtype=release
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/totem-pl-parser/3.26/totem-pl-parser-3.26.6.tar.xz
-        sha256: c0df0f68d5cf9d7da43c81c7f13f11158358368f98c22d47722f3bd04bd3ac1c
+  # - name: totem-pl-parser
+  #   buildsystem: meson
+  #   config-opts:
+  #     - -Dbuildtype=release
+  #   sources:
+  #     - type: archive
+  #       url: https://download.gnome.org/sources/totem-pl-parser/3.26/totem-pl-parser-3.26.6.tar.xz
+  #       sha256: c0df0f68d5cf9d7da43c81c7f13f11158358368f98c22d47722f3bd04bd3ac1c
 
-  - name: totem-video-thumbnailer
+  # - name: totem-video-thumbnailer
+  #   buildsystem: meson
+  #   config-opts:
+  #     - -Dbuildtype=release
+  #   sources:
+  #     - type: git
+  #       url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
+  #       commit: 6cb399918571a97591ff5a4a5a41d8e46b11027a
+
+  - name: libportal
     buildsystem: meson
     config-opts:
-      - -Dbuildtype=release
+      - -Dbackend-gtk4=enabled
+      - -Dbackend-gtk3=disabled
+      - -Dbackend-qt5=disabled
+      - -Dbackend-qt6=disabled
+      - -Dportal-tests=false
+      - -Dintrospection=true
+      - -Dvapi=true
+      - -Ddocs=false
+      - -Dtests=false
     sources:
       - type: git
-        url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
-        commit: 6cb399918571a97591ff5a4a5a41d8e46b11027a
+        url: https://github.com/flatpak/libportal
+        tag: 0.9.1
 
   - name: gThumb
     buildsystem: meson
     config-opts:
       - -Dbuildtype=release
       - -Dflatpak-build=true
-      - -Dwarn-deprecated=false
+      # - -Dwarn-deprecated=false
     sources:
       - type: archive
         url: https://download.gnome.org/sources/gthumb/4.0/gthumb-4.0.tar.xz
