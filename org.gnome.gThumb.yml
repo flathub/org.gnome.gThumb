@@ -124,6 +124,7 @@ modules:
   #       url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
   #       commit: 6cb399918571a97591ff5a4a5a41d8e46b11027a
 
+
   - name: libportal
     buildsystem: meson
     config-opts:
