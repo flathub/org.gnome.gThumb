@@ -1,12 +1,17 @@
 app-id: org.gnome.gThumb
 runtime: org.gnome.Platform
-runtime-version: '50'
+runtime-version: '51'
 sdk: org.gnome.Sdk
 
 # Upstream flatpak manifest
-# https://gitlab.gnome.org/GNOME/gthumb/-/blob/master/data/flatpak/org.gnome.gThumb.yml
+# https://gitlab.gnome.org/GNOME/gthumb/-/blob/master/data/flatpak/org.gnome.gthumb.yml
 
 command: gthumb
+rename-icon: org.gnome.gthumb
+copy-icon: true
+rename-desktop-file: org.gnome.gthumb.desktop
+rename-appdata-file: org.gnome.gthumb.metainfo.xml
+
 
 finish-args:
   - --socket=fallback-x11
@@ -26,10 +31,9 @@ finish-args:
 cleanup:
   - /bin/cd-*
   - /include
-  - /lib/pkgconfig
   - /lib/cmake
   - /lib/girepository-*
-  - /share/aclocal
+  - /lib/pkgconfig
   - /share/gir-1.0
   - /share/doc
   - /share/man
@@ -38,40 +42,36 @@ cleanup:
   - '*.la'
 
 modules:
-  - name: exiv2
-    buildsystem: cmake-ninja
-    cleanup:
-      - /lib/exiv2
+
+  - name: libraw
+    buildsystem: autotools
     config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DEXIV2_BUILD_EXIV2_COMMAND=OFF
-      - -DEXIV2_BUILD_SAMPLES=OFF
-      - -DEXIV2_BUILD_UNIT_TESTS=OFF
-      - -DEXIV2_ENABLE_INIH=OFF
+      - --disable-examples
     sources:
       - type: archive
-        url: https://github.com/Exiv2/exiv2/archive/refs/tags/v0.28.8.tar.gz
-        sha256: ea51b0609f58a9afa063b60daa1539948b62247721e154f4fff0ad3aec9f9756
+        url: https://www.libraw.org/data/LibRaw-0.22.3.tar.gz
+        sha256: 789f3c33466210a1a0907f747a97c715d21bbf4af712f257fcbbd90111b227e4
         x-checker-data:
           type: anitya
-          project-id: 769
+          project-id: 1709
           stable-only: true
-          url-template: https://github.com/Exiv2/exiv2/archive/refs/tags/v$version.tar.gz
+          url-template: https://www.libraw.org/data/LibRaw-$version.tar.gz
+
+  # Required by: colord
+  - name: libgusb
+    buildsystem: meson
+    config-opts:
+      - -Ddocs=false
+      - -Dvapi=false
+      - -Dtests=false
+    cleanup:
+      - /bin/gusbcmd
+    sources:
+      - type: archive
+        url: https://github.com/hughsie/libgusb/releases/download/0.4.9/libgusb-0.4.9.tar.xz
+        sha256: 9df5ef301d6a4b361002aa52cce1165a87a89744055879bdbab31e7e86f1e846
 
   - name: colord
-    modules:
-      - name: gusb
-        buildsystem: meson
-        config-opts:
-          - -Ddocs=false
-          - -Dvapi=false
-          - -Dtests=false
-        cleanup:
-          - /bin/gusbcmd
-        sources:
-          - type: archive
-            url: https://github.com/hughsie/libgusb/releases/download/0.4.9/libgusb-0.4.9.tar.xz
-            sha256: 9df5ef301d6a4b361002aa52cce1165a87a89744055879bdbab31e7e86f1e846
     buildsystem: meson
     config-opts:
       - -Dargyllcms_sensor=false
@@ -92,51 +92,52 @@ modules:
           stable-only: true
           url-template: https://www.freedesktop.org/software/colord/releases/colord-$version.tar.xz
 
-  - name: libraw
-    buildsystem: autotools
-    config-opts:
-      - --disable-examples
-    sources:
-      - type: archive
-        url: https://www.libraw.org/data/LibRaw-0.22.1.tar.gz
-        sha256: a789dc4e2409e2901d93793a4e0b80c7b49d0d97cf6ad71c850eb7616acfd786
-        x-checker-data:
-          type: anitya
-          project-id: 1709
-          stable-only: true
-          url-template: https://www.libraw.org/data/LibRaw-$version.tar.gz
-
-  - name: totem-pl-parser
+  - name: libinih
     buildsystem: meson
-    config-opts:
-      - -Dbuildtype=release
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/totem-pl-parser/3.26/totem-pl-parser-3.26.6.tar.xz
-        sha256: c0df0f68d5cf9d7da43c81c7f13f11158358368f98c22d47722f3bd04bd3ac1c
-
-  - name: totem-video-thumbnailer
-    buildsystem: meson
-    config-opts:
-      - -Dbuildtype=release
     sources:
       - type: git
-        url: https://gitlab.gnome.org/GNOME/totem-video-thumbnailer.git
-        commit: 6cb399918571a97591ff5a4a5a41d8e46b11027a
+        url: https://github.com/benhoyt/inih.git
+        tag: r58
+        commit: 5cc5e2c24642513aaa5b19126aad42d0e4e0923e
+
+  - name: exiv2
+    buildsystem: cmake-ninja
+    cleanup:
+      - /lib/exiv2
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_SKIP_RPATH=ON
+      - -DEXIV2_BUILD_SAMPLES=OFF
+      - -DEXIV2_BUILD_UNIT_TESTS=OFF
+      - -DEXIV2_ENABLE_VIDEO=ON
+      - -DEXIV2_ENABLE_NLS=ON
+      - -DEXIV2_ENABLE_XMP=ON
+      - -DEXIV2_ENABLE_CURL=ON
+      - -DEXIV2_ENABLE_WEBREADY=ON
+      - -DEXIV2_ENABLE_BMFF=ON
+    sources:
+      - type: archive
+        url: https://github.com/Exiv2/exiv2/archive/refs/tags/v0.28.9.tar.gz
+        sha256: 700b76b97695b2fab4ef8c79619c68ae57d09e0c130724791cafbd39e0eb4aef
+        x-checker-data:
+          type: anitya
+          project-id: 769
+          stable-only: true
+          url-template: https://github.com/Exiv2/exiv2/archive/refs/tags/v$version.tar.gz
 
   - name: gThumb
     buildsystem: meson
     config-opts:
       - -Dbuildtype=release
       - -Dflatpak-build=true
-      - -Dwarn-deprecated=false
+    # Fix non-png-icon-in-hicolor-size-folder error
+    post-install:
+      - mv /app/share/icons/hicolor/16x16/apps/org.gnome.gthumb-symbolic.svg -t /app/share/icons/hicolor/scalable/apps/
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gthumb/3.12/gthumb-3.12.10.tar.xz
-        sha256: 3222344653cd6fb5d7981b73951ae3d90c414f74220a8b1c8665b25574284c75
+        url: https://download.gnome.org/sources/gthumb/4.0/gthumb-4.0.tar.xz
+        sha256: a24aaa72b5637f49097dedc9c141a33615da770d029315f3285ebf2156cf7b61
         x-checker-data:
           type: gnome
           name: gthumb
           stable-only: true
-      - type: patch
-        path: patches/gthumb-appdata.patch
