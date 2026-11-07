@@ -138,8 +138,8 @@ modules:
       - mv /app/share/icons/hicolor/16x16/apps/org.gnome.gthumb-symbolic.svg -t /app/share/icons/hicolor/scalable/apps/
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gthumb/4.0/gthumb-4.0.tar.xz
-        sha256: a24aaa72b5637f49097dedc9c141a33615da770d029315f3285ebf2156cf7b61
+        url: https://download.gnome.org/sources/gthumb/4.0/gthumb-4.0.1.tar.xz
+        sha256: 224cc1dec6a9e76c993ed0ec354d66aab35ecc04d69c3c6eafa5f24c99fcebd0
         x-checker-data:
           type: gnome
           name: gthumb
